@@ -1,8 +1,7 @@
-
-# A very simple Flask Hello World app for you to get started with...
+# A very simple web app to complete a GPT3 prompt
 
 from flask import Flask, request
-from processing import do_calculation
+from runGPT import run_GPT
 
 
 app = Flask(__name__)
@@ -12,23 +11,14 @@ app.config["DEBUG"] = True
 def adder_page():
     errors = ""
     if request.method == "POST":
-        number1 = None
-        number2 = None
-        try:
-            number1 = float(request.form["number1"])
-        except:
-            errors += "<p>{!r} is not a number.</p>\n".format(request.form["number1"])
-        try:
-            number2 = float(request.form["number2"])
-        except:
-            errors += "<p>{!r} is not a number.</p>\n".format(request.form["number2"])
-        if number1 is not None and number2 is not None:
-            result = do_calculation(number1, number2)
+        prompt = None
+        if prompt is not None:
+            result = run_GPT(prompt)
             return '''
                 <html>
                     <body>
-                        <p>The result is {result}</p>
-                        <p><a href="/">Click here to calculate again</a>
+                        <p>The machine says {result}</p>
+                        <p><a href="/">Click here to run it back</a>
                     </body>
                 </html>
             '''.format(result=result)
@@ -36,13 +26,11 @@ def adder_page():
         <html>
             <body>
                 {errors}
-                <p>Enter your numbers:</p>
+                <p>Enter your prompt:</p>
                 <form method="post" action=".">
-                    <p><input name="number1" /></p>
-                    <p><input name="number2" /></p>
-                    <p><input type="submit" value="Do calculation" /></p>
+                    <p><input name="prompt" /></p>
+                    <p><input type="submit" value="Make GPT Request" /></p>
                 </form>
             </body>
         </html>
     '''.format(errors=errors)
-
