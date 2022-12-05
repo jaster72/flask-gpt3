@@ -1,6 +1,6 @@
 import os
 import openai
-openai.api_key = "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"
+openai.api_key = "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"
 
 # customPrompt = input("What do you want to ask the oracle? ")
 
